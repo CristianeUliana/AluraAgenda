@@ -82,7 +82,7 @@ class AlunoViewController: UIViewController, ImagePickerFotoSelecionada {
         
         if aluno?.id == nil {
            id = String(describing: UUID())
-        } else{
+        } else {
             guard let idDoAlunoExistente = aluno?.id else {return [:]}
             id = String(describing: idDoAlunoExistente)
         }
@@ -130,7 +130,7 @@ class AlunoViewController: UIViewController, ImagePickerFotoSelecionada {
     
     @IBAction func buttonSalvar(_ sender: UIButton) {
         let json = montaDicionarioDeParametros()
-        Repositorio().salvaAluno(aluno:json)
+        Repositorio().salvaAluno(aluno: json)
         navigationController?.popViewController(animated: true)
     }
     

@@ -23,8 +23,6 @@ class AlunoDAO: NSObject {
         let ordenaPorNome = NSSortDescriptor(key: "nome", ascending: true)
         pesquisaAluno.sortDescriptors = [ordenaPorNome]
         
-        
-        
         gerenciadorDeResultados = NSFetchedResultsController(fetchRequest: pesquisaAluno, managedObjectContext: contexto, sectionNameKeyPath: nil, cacheName: nil)
         
         do {
@@ -42,9 +40,7 @@ class AlunoDAO: NSObject {
     func salvaAluno(dicionarioDeAluno: Dictionary<String, Any>) {
         
         var aluno:NSManagedObject?
-        
-        
-        
+       
         guard let id = UUID(uuidString: dicionarioDeAluno["id"] as! String) else {return}
         
         let alunos = recuperaAlunos().filter() { $0.id == id }
@@ -63,9 +59,6 @@ class AlunoDAO: NSObject {
         aluno?.setValue(dicionarioDeAluno["telefone"] as? String, forKey: "telefone")
         aluno?.setValue(dicionarioDeAluno["site"] as? String, forKey: "site")
         
-        
-        
-        
         guard let nota = dicionarioDeAluno["nota"] else {return}
         
         if (nota is String) {
@@ -74,9 +67,14 @@ class AlunoDAO: NSObject {
             let conversaoDeNota = String(describing: nota)
             aluno?.setValue((conversaoDeNota as NSString).doubleValue, forKey: "nota")
         }
-        
         atualizaContexto()
      }
+    
+    func deletaAluno(aluno:Aluno) {
+        contexto.delete(aluno)
+        atualizaContexto()
+     }
+    
     
     func atualizaContexto() {
         do {
@@ -85,7 +83,4 @@ class AlunoDAO: NSObject {
             print(error.localizedDescription)
         }
     }
-    
-    
-
 }
